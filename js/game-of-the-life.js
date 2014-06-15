@@ -5,7 +5,7 @@ var width = 800 / gridSize;
 var height = 500 / gridSize;
 var grid = [[]];
 var canvas = document.getElementById('canvasElement');
-var ctx = canvas.getContext('2d');
+var context = canvas.getContext('2d');
 
 canvas.addEventListener('mousedown', draw, false);
 canvas.addEventListener('mouseup', stopdraw, false);
@@ -65,8 +65,8 @@ drawSquareAt = function(x,y){
         grid[x][y] = 1;
         x *= gridSize;
         y *= gridSize;
-        ctx.fillStyle = "rgba(0, 0, 0, 1)";  
-        ctx.fillRect (x,y,gridSize,gridSize);
+        context.fillStyle = "rgba(0, 0, 0, 1)";  
+        context.fillRect (x+1,y+1,gridSize-1,gridSize-1);
     }
 }
 
@@ -75,8 +75,8 @@ killSquareAt = function(x,y){
         grid[x][y] = 0;
         x *= gridSize;
         y *= gridSize;
-        ctx.fillStyle = "rgba(255, 255, 255, 1)";  
-        ctx.fillRect (x,y,gridSize,gridSize);
+        context.fillStyle = "rgba(255, 255, 255, 1)";  
+        context.fillRect (x+1,y+1,gridSize-1,gridSize-1);
     }
 }
 
@@ -87,6 +87,20 @@ function initializeGrid(){
             grid[x][y]=0;
         }
     }
+    drawGrid();
+}
+
+function drawGrid(){
+    for (var x = 0.5; x <= width*gridSize; x += gridSize) {
+        context.moveTo(x, 0);
+        context.lineTo(x, height*gridSize);
+    }
+    for (var x = 0.5; x <= height*gridSize; x += gridSize) {
+        context.moveTo(0, x);
+        context.lineTo(width*gridSize, x);
+    }
+    context.strokeStyle = "#e9e9e9";
+    context.stroke();
 }
 
 startGame = function(x,y){
