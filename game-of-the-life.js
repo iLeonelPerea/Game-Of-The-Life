@@ -20,6 +20,14 @@ $(document).mousemove(function(e){
     mouseY = e.pageY - canvas.offsetTop;
 });
 
+function clear(){
+    for (var x=0; x<width; x++){
+        for (var y=0; y<height; y++){
+            killSquareAt(x,y);
+        }
+    }
+}
+
 function draw(){
     x=Math.floor(mouseX/gridSize);
     y=Math.floor(mouseY/gridSize);
@@ -43,6 +51,13 @@ function draw(){
 
 function stopdraw(e){
     clearInterval(t);
+}
+
+function buildRandomData(length){
+    for (var i=0;i<length;i++){
+        drawSquareAt(Math.floor(Math.random()*width),Math.floor(Math.random()*height))
+    }
+
 }
 
 drawSquareAt = function(x,y){
@@ -117,8 +132,22 @@ function playGame(){
     }
 }
 
-
 $('#start').click(function(){
    pause = true;
    playGame();
 })
+
+$('#random').click(function(){
+   clear();
+   pause = true;
+   buildRandomData(Math.floor(Math.random()*((width*height/gridSize)-200+1)+200));
+   playGame();
+})
+$('#pause').click(function(){
+   pause = false;
+})
+
+$('#clear').click(function(){
+   pause = false;
+   clear(); 
+});
